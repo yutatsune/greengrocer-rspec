@@ -11,4 +11,14 @@ class User
       puts "#{products.first.id}から#{products.last.id}の番号から選んでください。"
     end
   end
+
+  def decide_quantity
+    while true
+      print '個数を入力 >'
+      @quantity_of_product = gets.to_i
+      break if @quantity_of_product >= 1
+
+      puts '１個以上選んでください。'
+    end
+  end
 end

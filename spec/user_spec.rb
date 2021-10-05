@@ -1,6 +1,6 @@
 RSpec.describe User do
+  let(:user) { User.new }
   describe '.choose_product' do
-    let(:user) { User.new }
     let(:products) do
       [
         Product.new({ name: 'トマト', price: 100 }),
@@ -44,6 +44,53 @@ RSpec.describe User do
 
     context '数値以外の文字列を入力したとき' do
       let(:wrong_product_id_input) { "hoge\n" }
+      it_behaves_like '再入力を促すこと'
+    end
+  end
+
+  describe '.decide_quantity' do
+    shared_examples '@quantity_of_productが，入力値を整数化した値と等しいこと' do
+      it do
+        allow(ARGF).to receive(:gets).and_return correct_quantity_input
+        user.decide_quantity
+        expect(user.quantity_of_product).to eq correct_quantity_input.to_i
+      end
+    end
+
+    context '1を入力したとき' do
+      let(:correct_quantity_input) { "1\n" }
+      it_behaves_like '@quantity_of_productが，入力値を整数化した値と等しいこと'
+    end
+
+    context '2〜100の数値のいずれかを入力したとき' do
+      let(:correct_quantity_input) { "#{rand(2..100)}\n" }
+      it_behaves_like '@quantity_of_productが，入力値を整数化した値と等しいこと'
+    end
+
+    let(:prompt_re_enter_msg) { /１個以上選んでください。/ }
+
+    shared_examples '再入力を促すこと' do
+      it do
+        allow(ARGF).to receive(:gets).and_return wrong_quantity_input, correct_quantity_input
+        expect { user.decide_quantity }.to output(prompt_re_enter_msg).to_stdout
+      end
+    end
+
+    context '0を入力したとき' do
+      let(:wrong_quantity_input) { "0\n" }
+      let(:correct_quantity_input) { "1\n" }
+      it_behaves_like '再入力を促すこと'
+    end
+
+    context '負の数値を入力したとき' do
+      let(:wrong_quantity_input) { "0\n" }
+      let(:correct_quantity_input) { "1\n" }
+      it_behaves_like '再入力を促すこと'
+    end
+
+    context '数値以外の文字列を入力したとき' do
+      let(:wrong_quantity_input) { "0\n" }
+      let(:correct_quantity_input) { "1\n" }
       it_behaves_like '再入力を促すこと'
     end
   end
