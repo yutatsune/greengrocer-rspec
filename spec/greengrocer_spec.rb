@@ -76,4 +76,19 @@ RSpec.describe Greengrocer do
       expect { greengrocer.disp_products }.to output(msg).to_stdout
     end
   end
+
+  describe '.ask_quantity' do
+    let(:product_params) do
+      [
+        { name: 'トマト', price: 100 },
+        { name: 'きゅうり', price: 200 }
+      ]
+    end
+    let(:greengrocer) { Greengrocer.new(product_params) }
+    let(:chosen_product) { Product.new({ name: '玉ねぎ', price: 300 }) }
+    let(:ask_msg) { "玉ねぎですね。何個買いますか？\n" }
+    it 'userが選択した商品の名前を含む，期待する表示がされること' do
+      expect { greengrocer.ask_quantity(chosen_product) }.to output(ask_msg).to_stdout
+    end
+  end
 end

@@ -18,4 +18,8 @@ class Greengrocer
       puts "#{product.id}.#{product.name}" "(¥#{product.price})"
     end
   end
+
+  def ask_quantity(chosen_product)
+    puts "#{chosen_product.name}ですね。何個買いますか？"
+  end
 end
