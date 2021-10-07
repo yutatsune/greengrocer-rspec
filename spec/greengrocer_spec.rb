@@ -91,4 +91,26 @@ RSpec.describe Greengrocer do
       expect { greengrocer.ask_quantity(chosen_product) }.to output(ask_msg).to_stdout
     end
   end
+
+  describe '.calculate_charges' do
+    context '300円の商品（玉ねぎ）が4個のとき' do
+      it '正しい合計金額を含む，期待する表示がされること' do
+      end
+    end
+
+    context '400円の商品（なす）が4個のとき' do
+      it '正しい合計金額を含む，期待する表示がされること' do
+      end
+    end
+
+    context '300円の商品（玉ねぎ）が5個のとき' do
+      it '割引した正しい合計金額を含む，期待する表示がされること' do
+      end
+    end
+
+    context '400円の商品（なす）が5個のとき' do
+      it '割引した正しい合計金額を含む，期待する表示がされること' do
+      end
+    end
+  end
 end
