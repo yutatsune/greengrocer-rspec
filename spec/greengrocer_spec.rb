@@ -112,6 +112,19 @@ RSpec.describe Greengrocer do
 
     context '400円の商品（なす）が4個のとき' do
       it '正しい合計金額を含む，期待する表示がされること' do
+        product_params =
+          [
+            { name: 'トマト', price: 100 },
+            { name: 'きゅうり', price: 200 }
+          ]
+        greengrocer = Greengrocer.new(product_params)
+        user = User.new
+        user.instance_variable_set('@chosen_product', Product.new({ name: 'なす', price: 400 }))
+        user.instance_variable_set('@quantity_of_product', 4)
+        total_price_msg = '合計金額は1600円です。'
+        thank_msg = 'お買い上げありがとうございました！'
+        expect { greengrocer.calculate_charges(user) }
+          .to output("#{total_price_msg}\n#{thank_msg}\n").to_stdout
       end
     end
 
